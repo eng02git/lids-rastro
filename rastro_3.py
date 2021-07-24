@@ -452,6 +452,35 @@ with st.beta_expander('Selante'):
         enable_enterprise_modules=enable_enterprise_modules)
 
 
+st.subheader('Visulizacao do historico de paletes com e sem selante')
+with st.beta_expander('Paletes sem selante'):
+
+    gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(400, df_pal_sem, 0, 0, True)
+    response = AgGrid(
+        df_pal_sem,
+        gridOptions=gridOptions,
+        height=grid_height,
+        width='100%',
+        data_return_mode=return_mode_value,
+        update_mode=update_mode_value,
+        fit_columns_on_grid_load=fit_columns_on_grid_load,
+        allow_unsafe_jscode=False,  # Set it to True to allow jsfunction to be injected
+        enable_enterprise_modules=enable_enterprise_modules)
+
+with st.beta_expander('Paletes com selante'):
+
+    gridOptions, grid_height, return_mode_value, update_mode_value, fit_columns_on_grid_load, enable_enterprise_modules = config_grid(400, df_pal_com, 0, 0, True)
+    response = AgGrid(
+        df_pal_com,
+        gridOptions=gridOptions,
+        height=grid_height,
+        width='100%',
+        data_return_mode=return_mode_value,
+        update_mode=update_mode_value,
+        fit_columns_on_grid_load=fit_columns_on_grid_load,
+        allow_unsafe_jscode=False,  # Set it to True to allow jsfunction to be injected
+        enable_enterprise_modules=enable_enterprise_modules)
+
 ###########################################
 # Selecionar bobinas disponiveis para uso #
 ###########################################
@@ -612,7 +641,7 @@ with col2:
                 st.experimental_rerun()
 
     else:
-        st.error('Ha paletes demais sem selante na reserva')
+        st.error('Ha paletes demais na reserva')
 
     fifo_in_show = df_ps_fifo_in.sort_values(by='data_estoque', ascending=True)[['numero_palete', 'tipo_tampa']]
     #st.write(fifo_in_show.head())
@@ -629,7 +658,7 @@ with col2:
         enable_enterprise_modules=enable_enterprise_modules)
 
     if fifo_in_show.shape[0] > 0:
-        st.info('Proximo palete a ser consumido: ' + str(fifo_in_show.iloc[0, 0]))
+        st.info('Proximo palete: ' + str(fifo_in_show.iloc[0, 0]))
 
 # consome paletes
 
@@ -847,7 +876,7 @@ with col4:
                 st.experimental_rerun()
 
     else:
-        st.error('Ha paletes demais sem selante na reserva')
+        st.error('Ha paletes demais na reserva')
 
     fifo_s_in_show = df_ps_fifo_s_in.sort_values(by='data_estoque', ascending=True)[['numero_palete', 'codigo_SAP']]
     #st.write(fifo_s_in_show.head())
@@ -865,7 +894,7 @@ with col4:
         enable_enterprise_modules=enable_enterprise_modules)
 
     if fifo_s_in_show.shape[0] > 0:
-        st.success('Proximo palete a ser consumido: ' + str(fifo_s_in_show.iloc[0, 0]))
+        st.success('Proximo palete: ' + str(fifo_s_in_show.iloc[0, 0]))
 
 # consome paletes
 
